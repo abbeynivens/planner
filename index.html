@@ -27,21 +27,22 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // This runs when they click the "Unlock" button
-    window.checkPassword = function() {
-      const password = document.getElementById('password-field').value;
-      
-      // It logs in using your one secret password
-      signInWithEmailAndPassword(auth, "clubhouse@secret.com", password)
-        .then(() => {
-          // Success! Open the door to your secret page
-          window.location.href = "secret.html";
-        })
-        .catch((error) => {
-          // Wrong password
-          alert("Wrong password! Go away!");
-        });
-    }
+window.checkPassword = function() {
+  const password = document.getElementById('password-field').value;
+  
+  // Let's make sure the button is actually working
+  alert("Checking password with the guard...");
+
+  signInWithEmailAndPassword(auth, "clubhouse@secret.com", password)
+    .then(() => {
+      alert("Success! Opening the door...");
+      window.location.href = "secret.html";
+    })
+    .catch((error) => {
+      // This will pop up a box showing the exact problem!
+      alert("Firebase Error: " + error.code + " - " + error.message);
+    });
+}
   </script>
 </body>
 </html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Secret Club</title>
+</head>
+<body>
+
+  <!-- This is the box where they type the password -->
+  <div style="text-align: center; margin-top: 100px;">
+    <h2>🔒 This site is locked</h2>
+    <input type="password" id="password-field" placeholder="Enter Secret Password">
+    <button onclick="checkPassword()">Unlock</button>
+  </div>
+
+  <!-- This connects your site to Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://gstatic.com";
+    import { getAuth, signInWithEmailAndPassword } from "https://gstatic.com";
+
+    // 🔴 PASTE YOUR FIREBASE SNIPPET HERE
+    const firebaseConfig = {
+      apiKey: "AIzaSyCAF_cHf9Iz63pz2aJ4fPeulHUrKYJmfm0",
+      authDomain: "planner-b2509.firebaseapp.com",
+      projectId: "planner-b2509"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // This runs when they click the "Unlock" button
+    window.checkPassword = function() {
+      const password = document.getElementById('password-field').value;
+      
+      // It logs in using your one secret password
+      signInWithEmailAndPassword(auth, "clubhouse@secret.com", password)
+        .then(() => {
+          // Success! Open the door to your secret page
+          window.location.href = "secret.html";
+        })
+        .catch((error) => {
+          // Wrong password
+          alert("Wrong password! Go away!");
+        });
+    }
+  </script>
+</body>
+</html>

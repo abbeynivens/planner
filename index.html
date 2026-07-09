@@ -5,12 +5,16 @@
 </head>
 <body>
 
-  <!-- This is the box where they type the password -->
+  <!-- Notice we removed the onclick attribute from the button -->
   <div style="text-align: center; margin-top: 100px;">
     <h2>🔒 This site is locked</h2>
     <input type="password" id="password-field" placeholder="Enter Secret Password">
-    <button onclick="checkPassword()">Unlock</button>
+    <button id="unlock-btn">Unlock</button>
   </div>
+
+  <script type="module">
+    import { initializeApp } from "https://gstatic.com";
+    import { getAuth, signInWithEmailAndPassword } from "https://gstatic.com";
 
   <!-- This connects your site to Firebase -->
   <script type="module">
@@ -27,22 +31,24 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-window.checkPassword = function() {
-  const password = document.getElementById('password-field').value;
-  
-  // Let's make sure the button is actually working
-  alert("Checking password with the guard...");
+    // This grabs the button from your HTML page using its ID
+    const unlockButton = document.getElementById('unlock-btn');
 
-  signInWithEmailAndPassword(auth, "clubhouse@secret.com", password)
-    .then(() => {
-      alert("Success! Opening the door...");
-      window.location.href = "secret.html";
-    })
-    .catch((error) => {
-      // This will pop up a box showing the exact problem!
-      alert("Firebase Error: " + error.code + " - " + error.message);
+    // This listens for the click directly inside the module
+    unlockButton.addEventListener('click', () => {
+      const password = document.getElementById('password-field').value;
+      
+      alert("Checking password with the guard...");
+
+      signInWithEmailAndPassword(auth, "clubhouse@secret.com", password)
+        .then(() => {
+          alert("Success! Opening the door...");
+          window.location.href = "secret.html";
+        })
+        .catch((error) => {
+          alert("Firebase Error: " + error.code + " - " + error.message);
+        });
     });
-}
   </script>
 </body>
 </html>
